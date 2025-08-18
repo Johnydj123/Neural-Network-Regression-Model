@@ -47,68 +47,56 @@ Evaluate the model with the testing data.
 ### Register Number: 212223220020
 ```python
 class NeuralNet(nn.Module):
-  def __init__(self):
-    super().__init__()
-    self.l1=nn.Linear(1,6)
-    self.l2=nn.Linear(6,12)
-    self.l3=nn.Linear(12,20)
-    self.l4=nn.Linear(20,1)
-    self.relu=nn.ReLU()
-    self.history={'loss':[]}
-  def forward(self,x):
-    x=self.relu(self.l1(x))
-    x=self.relu(self.l2(x))
-    x=self.relu(self.l3(x))
-    x=self.l4(x)
-    return x
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(1, 12)
+        self.fc2 = nn.Linear(12, 10)
+        self.fc3 = nn.Linear(10, 14)
+        self.fc4 = nn.Linear(14, 1)
+        self.relu = nn.ReLU()
+        self.history={'loss':[]}
+
+  def forward(self, x):
+        x = self.relu(self.fc1(x))
+        x = self.relu(self.fc2(x))
+        x = self.relu(self.fc3(x))
+        x = self.fc4(x)
+        return x
 
 
-my_model=NeuralNet()
-criterion=nn.MSELoss()
-optimizer=optim.RMSprop(my_model.parameters(),lr=0.001)
 
-def train_model(my_model, X_train, y_train, criterion, optimizer, epochs=2000):
-  for i in range(epochs):
-    optimizer.zero_grad()
-    loss=criterion(my_model(X_train),y_train)
-    loss.backward()
-    optimizer.step()
-    my_model.history['loss'].append(loss.item())
-    if i % 200 == 0:
-      print(f'Epoch [{i}/{epochs}], Loss: {loss.item():.6f}')
+# Initialize the Model, Loss Function, and Optimizer
+johny=NeuralNet()
+criterion = nn.MSELoss()
+optimizer = optim.RMSprop(aaron.parameters(), lr=0.001)
 
-train_model(my_model, X_train_tensor, y_train_tensor, criterion, optimizer)
 
-with torch.no_grad():
-    test_loss = criterion(my_model(X_test_tensor), y_test_tensor)
-    print(f'Test Loss: {test_loss.item():.6f}')
+def train_model(johny, X_train, y_train, criterion, optimizer, epochs=2000):
+    for epoch in range(epochs):
+        optimizer.zero_grad()
+        loss = criterion(johny(X_train), y_train)
+        loss.backward()
+        optimizer.step()
 
-loss_df = pd.DataFrame(my_model.history)
+        johny.history['loss'].append(loss.item())
+        if epoch % 200 == 0:
+            print(f'Epoch [{epoch}/{epochs}], Loss: {loss.item():.6f}')
 
-import matplotlib.pyplot as plt
-loss_df.plot()
-plt.xlabel("Epochs")
-plt.ylabel("Loss")
-plt.title("Loss during Training")
-plt.show()
 
-X_n1_1 = torch.tensor([[20]], dtype=torch.float32)
-prediction = my_model(torch.tensor(scaler.transform(X_n1_1), dtype=torch.float32)).item()
-print(f'Prediction: {prediction}')
 ```
 ## Dataset Information
-<img width="722" height="867" alt="image" src="https://github.com/user-attachments/assets/c7714b0b-52ed-4a42-a73c-b037b54e7609" />
+![WhatsApp Image 2025-08-18 at 23 10 53_d0097c86](https://github.com/user-attachments/assets/d17a32c2-8db7-473d-b104-ebdb6b7a3c63)
 
 
 ## OUTPUT
 
 ### Training Loss Vs Iteration Plot
-<img width="755" height="574" alt="image" src="https://github.com/user-attachments/assets/2c984390-e4d9-4423-bf37-b3f9f054fece" />
+![WhatsApp Image 2025-08-18 at 23 06 40_243a5818](https://github.com/user-attachments/assets/7e98f0f1-28df-4626-b3dd-6e90c33700c4)
 
 
 ### New Sample Data Prediction
 
-<img width="865" height="135" alt="image" src="https://github.com/user-attachments/assets/21d66d4e-ee8f-4d53-9bbb-c1ec63ac6fc2" />
+![WhatsApp Image 2025-08-18 at 23 08 55_c685b2fb](https://github.com/user-attachments/assets/d9c89d49-9332-494a-9e69-c9badf690d75)
 
 ## RESULT
 Thus the Neural Network Regression Model is developed, trained and tested Successfully.
